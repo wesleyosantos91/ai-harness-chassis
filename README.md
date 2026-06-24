@@ -24,6 +24,7 @@ ai-harness-chassis/
     ├── config/               # checkstyle, spotless, archunit, pitest, pom-*.example.xml
     ├── docs/ai-harness/      # documentação do harness
     ├── docs/product/         # PRD.template.md
+    ├── docs/prd/             # PRDs (base de conhecimento p/ OpenSpec) + README índice
     ├── infra/localstack/     # Terraform do lab LocalStack
     ├── compose.yaml          # LocalStack via docker compose
     ├── .mcp.json             # MCPs do Claude Code
@@ -96,6 +97,35 @@ para sobrescrever (ex.: atualizar o harness depois de evoluir o chassi).
 `context7`, `springdocs`, `aws-docs`, `terraform-registry`, `aws-pricing-sandbox`,
 `localstack-lab` — para Claude Code (`.mcp.json`) e Codex (registrados pelo
 `install-tools.sh`). Detalhes e como habilitar/remover em `docs/ai-harness/mcp-setup.md`.
+
+## Fluxo PRD → Spec/SDD
+
+O chassi inclui a skill reutilizável `prd-produto` (Claude Code em
+`.claude/skills/prd-produto/` + comando `/prd-produto`; Codex em
+`.agents/skills/prd-produto/`) para transformar ideias, dores, oportunidades, épicos ou
+features em **PRDs de produto** focados em requisitos de negócio.
+
+O PRD é a **fonte de verdade** de negócio/produto e **alimenta o OpenSpec** (mecanismo
+spec-driven do chassi), que planeja a entrega da feature. Cadeia canônica:
+
+```text
+PRD (docs/prd/)  ->  OpenSpec change (openspec/: proposal/design/tasks)  ->  TDD
+```
+
+Regras do fluxo:
+
+- PRDs ficam em `docs/prd/`; o **planejamento da entrega é uma OpenSpec change** em
+  `openspec/` (via `openspec-propose` / `/opsx propose`), e o design/plano técnico (SDD)
+  fica no `design.md` da change.
+- O OpenSpec lê o PRD automaticamente: `openspec/config.yaml` (`context` + `rules`) instrui
+  a IA a ler `docs/prd/<iniciativa>.md` antes de gerar proposal/design/tasks.
+- Todo PRD salvo é referenciado em `docs/prd/README.md`, `CLAUDE.md` e `AGENTS.md`.
+- Nenhuma change é planejada sem ler antes o PRD de origem e referenciá-lo. A change deriva
+  do PRD, nunca o contrário.
+
+Uso no Claude Code: `/prd-produto auto <demanda>` (ou modos `discovery`/`lean`/`completo`/
+`review`/`mvp`/`perguntas`/`salvar`/`referenciar`/`pre-sdd`). No Codex: "Use a skill
+prd-produto em modo ... para <demanda>".
 
 ## Atualizar o chassi
 

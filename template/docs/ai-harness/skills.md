@@ -3,7 +3,7 @@
 Skills operacionais amarradas aos scripts/gates locais. Disponíveis para Claude
 (`.claude/skills/<nome>/SKILL.md`) e Codex (`.agents/skills/<nome>/SKILL.md`).
 
-## Catálogo (9)
+## Catálogo (10)
 
 | Skill | Objetivo | Script central |
 |---|---|---|
@@ -16,6 +16,7 @@ Skills operacionais amarradas aos scripts/gates locais. Disponíveis para Claude
 | `pre-pr-review` | Checklist pré-PR | `scripts/quality/verify-all.sh --fast` |
 | `adr-generation` | Gerar ADR | template `.ai/templates/adr-template.md` |
 | `context-pack` | Empacotar contexto | `scripts/ai/context-pack.sh` |
+| `prd-produto` | Gerar/revisar PRD de produto (base de conhecimento p/ OpenSpec) | `docs/prd/`, `openspec/` |
 
 Cada SKILL.md tem: frontmatter, objetivo, quando usar / quando NÃO usar, inputs,
 workflow, comandos, saída esperada, critérios de qualidade e nota de segurança
@@ -23,6 +24,16 @@ workflow, comandos, saída esperada, critérios de qualidade e nota de seguranç
 
 As skills de **OpenSpec** (`openspec-explore/propose/apply/archive/sync`) já existentes
 permanecem e não foram alteradas.
+
+## Fluxo PRD → Spec/SDD
+
+A skill `prd-produto` estabelece o PRD como base de conhecimento de negócio/produto que
+**alimenta o OpenSpec**. Cadeia: `PRD (docs/prd/) -> OpenSpec change (openspec/:
+proposal/design/tasks) -> TDD`. O planejamento da entrega é uma OpenSpec change criada via
+`openspec-propose` / `/opsx propose`, que lê o PRD como base (`openspec/config.yaml`:
+`context` + `rules`). Todo PRD salvo é referenciado em `docs/prd/README.md`, `CLAUDE.md` e
+`AGENTS.md`; nenhuma change deve ser planejada sem ler antes o PRD de origem e referenciá-lo.
+No Claude Code há também o comando `/prd-produto`.
 
 ## Validação
 

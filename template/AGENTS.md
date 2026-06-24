@@ -139,3 +139,50 @@ Reference adaptation docs:
 - `docs/ai-harness/agents.md`
 - `docs/ai-harness/skills.md`
 - `.ai/references/agent-selection-matrix.md`
+
+## Fluxo PRD → Spec/SDD
+
+Este repositório usa PRDs como fonte de verdade de negócio e **OpenSpec** como mecanismo
+spec-driven. Cadeia canônica (ver também `## OpenSpec / SDD`):
+
+```text
+PRD (docs/prd/)  ->  OpenSpec change (openspec/: proposal/design/tasks)  ->  TDD
+```
+
+- **PRDs** em `docs/prd/` (fonte de verdade de produto/negócio; skill `prd-produto`).
+- O **planejamento da entrega** (spec/design/tasks) é uma **OpenSpec change** em `openspec/`,
+  criada via `openspec-propose` / `/opsx propose`, que lê o PRD como base (`openspec/config.yaml`).
+- O **design/plano técnico (SDD)** fica no `design.md` da change.
+
+### Regra obrigatória
+
+Antes de iniciar qualquer nova spec ou SDD, leia primeiro o PRD correspondente da demanda.
+
+Nenhuma spec ou SDD deve ser criada sem referência explícita ao PRD de origem.
+
+A spec ou SDD deve conter frontmatter com:
+
+```md
+---
+source_prd: docs/prd/<nome-da-iniciativa>.md
+source_prd_id: PRD-<nome-em-kebab-case>
+---
+```
+
+### PRDs registrados
+
+Manter esta lista atualizada sempre que um novo PRD for criado:
+
+<!-- PRD-INDEX:START -->
+<!-- PRD-INDEX:END -->
+
+### Skill relacionada
+
+Use a skill `prd-produto` para:
+
+* criar PRDs
+* revisar PRDs
+* recortar MVP
+* gerar perguntas de discovery
+* validar prontidão para SDD/spec
+* referenciar PRDs em `CLAUDE.md`, `AGENTS.md` e `docs/prd/README.md`
