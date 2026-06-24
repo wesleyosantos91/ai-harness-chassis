@@ -6,14 +6,15 @@ Cada PRD deve representar uma demanda, dor, oportunidade, épico ou feature do p
 
 ## Posição no fluxo (OpenSpec)
 
-O PRD é a fonte de verdade de negócio e **alimenta o OpenSpec**:
+O PRD é a fonte de verdade de negócio e **alimenta o OpenSpec**, que planeja a entrega:
 
 ```text
-PRD (docs/prd/)  ->  OpenSpec change/spec (openspec/)  ->  SDD/plano (docs/sdd/)  ->  TDD
+PRD (docs/prd/)  ->  OpenSpec change (openspec/: proposal/design/tasks)  ->  TDD
 ```
 
-A spec derivada é uma OpenSpec change/spec (via `openspec-propose` / `/opsx propose`);
-`docs/specs/` é fallback para specs sem OpenSpec.
+O planejamento (spec/design/tasks) é uma OpenSpec change em `openspec/`, criada via
+`openspec-propose` / `/opsx propose`, que lê o PRD como base (`openspec/config.yaml`).
+O design/plano técnico (SDD) fica no `design.md` da change.
 
 ## Regra de rastreabilidade
 

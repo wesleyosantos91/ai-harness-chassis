@@ -76,21 +76,21 @@ Quando o repositório usa OpenSpec (existe `openspec/` com `schema: spec-driven`
 canônico é:
 
 ```text
-PRD (docs/prd/)  ->  OpenSpec change/spec (openspec/)  ->  SDD/plano técnico  ->  TDD
+PRD (docs/prd/)  ->  OpenSpec change (openspec/: proposal/design/tasks)  ->  TDD
 ```
 
 Neste caso:
 
-* O PRD continua sendo a fonte de verdade de negócio/produto e **alimenta** a spec do OpenSpec.
-* A "spec" derivada do PRD é uma **OpenSpec change/spec** em `openspec/`, criada via a skill
-  `openspec-propose` ou o comando `/opsx propose` (Claude Code).
-* A `proposal.md`/`design.md` da change e a SDD em `docs/sdd/` devem referenciar o PRD de
-  origem (`source_prd`, `source_prd_id`).
-* `docs/specs/` é fallback para specs sem OpenSpec ou notas de design; mesmo assim deve
-  referenciar o PRD.
+* O PRD é a base de conhecimento de negócio/produto e **alimenta** o planejamento do OpenSpec.
+* O planejamento da entrega é uma **OpenSpec change** em `openspec/`, criada via a skill
+  `openspec-propose` ou o comando `/opsx propose` (Claude Code), com `proposal.md` (o quê/por quê),
+  `design.md` (como/plano técnico/SDD) e `tasks.md` (passos).
+* O OpenSpec lê o PRD automaticamente: `openspec/config.yaml` (`context` + `rules`) instrui a IA
+  a ler `docs/prd/<iniciativa>.md` antes de gerar os artefatos e a referenciar o PRD de origem.
+* A change deve referenciar o PRD de origem (`source_prd: docs/prd/<iniciativa>.md`, `source_prd_id`).
 * Antes de implementar, valide com `scripts/ai/opsx-context-check.sh` e
   `scripts/ai/openspec-validate.sh`. Requisito não claro **bloqueia** a implementação.
-* Não invente requisitos: o que não estiver no PRD/spec deve virar pergunta aberta.
+* Não invente requisitos: o que não estiver no PRD deve virar pergunta aberta.
 
 ## 2. Modos de uso
 
@@ -1138,15 +1138,12 @@ Tarefas:
    * riscos
    * perguntas abertas
 3. Identificar perguntas bloqueantes.
-4. Avaliar se o PRD está pronto para originar SDD/spec.
-5. Não criar SDD automaticamente, a menos que o usuário peça explicitamente.
-6. Se estiver pronto, recomendar o próximo passo:
-   * **Se houver OpenSpec** (`openspec/` presente): criar uma OpenSpec change/spec via a
-     skill `openspec-propose` ou `/opsx propose`, referenciando o PRD; a SDD/plano técnico
-     fica em `docs/sdd/<nome-da-iniciativa>.md` (ou no `design.md` da change).
-   * **Sem OpenSpec**: recomendar `docs/sdd/<nome-da-iniciativa>.md` ou
-     `docs/specs/<nome-da-iniciativa>.md`.
-7. A futura SDD/spec (OpenSpec change ou arquivo) deve conter referência explícita ao PRD de origem.
+4. Avaliar se o PRD está pronto para originar o planejamento da entrega (OpenSpec change).
+5. Não criar a change automaticamente, a menos que o usuário peça explicitamente.
+6. Se estiver pronto, recomendar o próximo passo: criar uma **OpenSpec change** via a skill
+   `openspec-propose` ou `/opsx propose`, referenciando o PRD. O design/plano técnico (SDD)
+   fica no `design.md` da change; o OpenSpec lê o PRD via `openspec/config.yaml`.
+7. A change (proposal/design/tasks) deve conter referência explícita ao PRD de origem.
 
 Saída esperada:
 
@@ -1173,11 +1170,13 @@ Classifique como:
 * Pode iniciar SDD com ressalvas
 * Não iniciar SDD ainda
 
-## 7. Caminho recomendado
+## 7. Próximo passo recomendado
 
 ```text
-docs/sdd/<nome-da-iniciativa>.md
+/opsx propose <nome-da-iniciativa>   # cria a OpenSpec change que lê o PRD como base
 ```
+
+A change fica em `openspec/changes/<nome-da-iniciativa>/` (proposal/design/tasks).
 
 ## 16. Regras de escrita
 
@@ -1206,7 +1205,7 @@ A saída final deve conter:
 * riscos
 * critérios de aceite, quando aplicável
 * sugestão de caminho de salvamento
-* referência ao PRD de origem, quando o artefato for spec ou SDD
+* referência ao PRD de origem, quando o próximo passo for a OpenSpec change
 
 Caminho sugerido para PRD:
 
@@ -1214,16 +1213,10 @@ Caminho sugerido para PRD:
 docs/prd/<nome-da-iniciativa>.md
 ```
 
-Caminho sugerido para SDD:
+Próximo passo (planejamento da entrega) — OpenSpec change:
 
 ```text
-docs/sdd/<nome-da-iniciativa>.md
-```
-
-Caminho sugerido para spec:
-
-```text
-docs/specs/<nome-da-iniciativa>.md
+/opsx propose <nome-da-iniciativa>   # cria openspec/changes/<nome-da-iniciativa>/ (proposal/design/tasks)
 ```
 
 Se o usuário pediu para salvar, salve o arquivo.
@@ -1242,8 +1235,9 @@ spec/SDD. Toda demanda de produto deve começar por um PRD.
 
 ### Quando NÃO usar
 
-Para criar código de aplicação, desenhar arquitetura, escrever a SDD/spec em si ou
-gerar backlog técnico. A SDD/spec é derivada do PRD (ver modo `pre-sdd`), nunca o contrário.
+Para criar código de aplicação, desenhar arquitetura, escrever a OpenSpec change/design em si
+ou gerar backlog técnico. O planejamento da entrega é uma OpenSpec change derivada do PRD
+(ver modo `pre-sdd` + `/opsx propose`), nunca o contrário.
 
 ### Inputs
 
@@ -1258,20 +1252,20 @@ ou feature) ou um caminho de PRD existente (ex.: `review docs/prd/<arquivo>.md`,
 3. Gere o artefato no formato do modo, com IDs rastreáveis, riscos e critérios de aceite.
 4. No modo `salvar`: persista em `docs/prd/<nome-da-iniciativa>.md`, adicione o frontmatter
    e referencie em `docs/prd/README.md`, `CLAUDE.md` e `AGENTS.md`.
-5. No modo `pre-sdd`: leia o PRD, valide prontidão e recomende o próximo passo.
+5. No modo `pre-sdd`: leia o PRD, valide prontidão e recomende criar a OpenSpec change (`/opsx propose`).
 
 ### Comandos
 
 ```bash
 ls docs/prd/ 2>/dev/null || true
-ls docs/specs/ docs/sdd/ 2>/dev/null || true
+ls openspec/changes/ 2>/dev/null || true
 ```
 
 ### Saída esperada
 
 Artefato do modo escolhido com premissas, perguntas abertas, riscos, critérios de aceite
-(quando aplicável) e sugestão de caminho `docs/prd/<nome-da-iniciativa>.md`. Quando o
-artefato for spec ou SDD, deve referenciar explicitamente o PRD de origem.
+(quando aplicável) e sugestão de caminho `docs/prd/<nome-da-iniciativa>.md`. O próximo passo
+(planejamento) é uma OpenSpec change via `/opsx propose`, que referencia o PRD de origem.
 
 ### Nota de segurança
 

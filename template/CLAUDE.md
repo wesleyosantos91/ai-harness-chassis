@@ -96,13 +96,13 @@ Este repositório usa PRDs como fonte de verdade de negócio e **OpenSpec** como
 spec-driven. Cadeia canônica (ver também `## OpenSpec / SDD`):
 
 ```text
-PRD (docs/prd/)  ->  OpenSpec change/spec (openspec/)  ->  SDD/plano (docs/sdd/)  ->  TDD
+PRD (docs/prd/)  ->  OpenSpec change (openspec/: proposal/design/tasks)  ->  TDD
 ```
 
 - **PRDs** em `docs/prd/` (fonte de verdade de produto/negócio; skill `prd-produto`).
-- **Spec** derivada = OpenSpec change/spec em `openspec/` (via `openspec-propose` / `/opsx propose`).
-  `docs/specs/` é fallback para specs sem OpenSpec ou notas de design.
-- **SDDs** em `docs/sdd/` (ou no `design.md` da change).
+- O **planejamento da entrega** (spec/design/tasks) é uma **OpenSpec change** em `openspec/`,
+  criada via `openspec-propose` / `/opsx propose`, que lê o PRD como base (`openspec/config.yaml`).
+- O **design/plano técnico (SDD)** fica no `design.md` da change.
 
 ### Regra obrigatória
 

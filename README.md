@@ -24,9 +24,7 @@ ai-harness-chassis/
     ├── config/               # checkstyle, spotless, archunit, pitest, pom-*.example.xml
     ├── docs/ai-harness/      # documentação do harness
     ├── docs/product/         # PRD.template.md
-    ├── docs/prd/             # PRDs (fonte de verdade) + README índice
-    ├── docs/specs/           # specs derivadas de PRDs (README com a regra)
-    ├── docs/sdd/             # SDDs derivadas de PRDs (README com a regra)
+    ├── docs/prd/             # PRDs (base de conhecimento p/ OpenSpec) + README índice
     ├── infra/localstack/     # Terraform do lab LocalStack
     ├── compose.yaml          # LocalStack via docker compose
     ├── .mcp.json             # MCPs do Claude Code
@@ -108,20 +106,22 @@ O chassi inclui a skill reutilizável `prd-produto` (Claude Code em
 features em **PRDs de produto** focados em requisitos de negócio.
 
 O PRD é a **fonte de verdade** de negócio/produto e **alimenta o OpenSpec** (mecanismo
-spec-driven do chassi). Cadeia canônica:
+spec-driven do chassi), que planeja a entrega da feature. Cadeia canônica:
 
 ```text
-PRD (docs/prd/)  ->  OpenSpec change/spec (openspec/)  ->  SDD/plano (docs/sdd/)  ->  TDD
+PRD (docs/prd/)  ->  OpenSpec change (openspec/: proposal/design/tasks)  ->  TDD
 ```
 
 Regras do fluxo:
 
-- PRDs ficam em `docs/prd/`; a **spec derivada é uma OpenSpec change/spec** em `openspec/`
-  (via `openspec-propose` / `/opsx propose`); SDDs em `docs/sdd/`. `docs/specs/` é fallback
-  para specs sem OpenSpec ou notas de design.
+- PRDs ficam em `docs/prd/`; o **planejamento da entrega é uma OpenSpec change** em
+  `openspec/` (via `openspec-propose` / `/opsx propose`), e o design/plano técnico (SDD)
+  fica no `design.md` da change.
+- O OpenSpec lê o PRD automaticamente: `openspec/config.yaml` (`context` + `rules`) instrui
+  a IA a ler `docs/prd/<iniciativa>.md` antes de gerar proposal/design/tasks.
 - Todo PRD salvo é referenciado em `docs/prd/README.md`, `CLAUDE.md` e `AGENTS.md`.
-- Nenhuma spec/SDD é criada sem ler antes o PRD de origem e referenciá-lo no frontmatter
-  (`source_prd`, `source_prd_id`). A spec/SDD é derivada do PRD, nunca o contrário.
+- Nenhuma change é planejada sem ler antes o PRD de origem e referenciá-lo. A change deriva
+  do PRD, nunca o contrário.
 
 Uso no Claude Code: `/prd-produto auto <demanda>` (ou modos `discovery`/`lean`/`completo`/
 `review`/`mvp`/`perguntas`/`salvar`/`referenciar`/`pre-sdd`). No Codex: "Use a skill

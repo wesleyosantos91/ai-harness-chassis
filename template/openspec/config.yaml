@@ -18,8 +18,8 @@ context: |
   PRD tiver perguntas bloqueantes, registre a lacuna e NÃO assuma respostas como fato.
 
   Cadeia do fluxo:
-  PRD (docs/prd/) -> OpenSpec change/spec (openspec/) -> SDD/plano (docs/sdd/ ou
-  design.md) -> implementação TDD.
+  PRD (docs/prd/) -> OpenSpec change (openspec/: proposal/design/tasks) -> implementação TDD.
+  O design/plano técnico (SDD) fica no `design.md` da própria change.
 
   Convenções técnicas: Java 25, Maven (`./mvnw`), arquitetura por pacotes
   (web/message/application/domain/infrastructure/core), TDD obrigatório, quality gates

@@ -20,26 +20,27 @@ mesma skill em `.agents/skills/prd-produto/SKILL.md`).
 **Comandos shell permitidos:**
 ```bash
 ls docs/prd/ 2>/dev/null || true
-ls docs/specs/ docs/sdd/ 2>/dev/null || true
+ls openspec/changes/ 2>/dev/null || true
 ```
 
 **Entradas esperadas:** modo (opcional) + descrição da demanda, ou um caminho de PRD
 (ex.: `review docs/prd/<arquivo>.md`, `pre-sdd docs/prd/<arquivo>.md`).
 
 **Saída esperada:** artefato do modo escolhido (Discovery Brief, PRD Lean, PRD Completo,
-review, recorte de MVP, perguntas ou pré-validação para SDD), com premissas, perguntas
-abertas, riscos e sugestão de caminho `docs/prd/<nome-da-iniciativa>.md`.
+review, recorte de MVP, perguntas ou pré-validação para a OpenSpec change), com premissas,
+perguntas abertas, riscos e sugestão de caminho `docs/prd/<nome-da-iniciativa>.md`.
 
-**Regras do fluxo PRD → Spec/SDD:**
+**Regras do fluxo PRD → OpenSpec:**
 - Todo PRD salvo fica em `docs/prd/<nome-da-iniciativa>.md` e é referenciado em
   `docs/prd/README.md`, `CLAUDE.md` e `AGENTS.md`.
-- Nenhuma spec/SDD pode ser criada sem ler antes o PRD de origem e referenciá-lo
-  explicitamente no frontmatter (`source_prd`, `source_prd_id`).
-- O PRD é a fonte de verdade de negócio/produto; a spec/SDD é derivada do PRD.
+- O planejamento da entrega é uma **OpenSpec change** (`/opsx propose`) que lê o PRD como
+  base (`openspec/config.yaml`) e o referencia; o design/plano técnico (SDD) fica no
+  `design.md` da change.
+- O PRD é a fonte de verdade de negócio/produto; a change é derivada do PRD.
 
 **Critério de pronto:** artefato gerado no modo correto; se o usuário pediu para salvar,
 o arquivo está em `docs/prd/` e referenciado em `docs/prd/README.md`, `CLAUDE.md` e
-`AGENTS.md`. Não criar código, arquitetura, spec ou SDD neste comando.
+`AGENTS.md`. Não criar código, arquitetura ou a OpenSpec change neste comando.
 
 ## Contexto adicional
 $ARGUMENTS

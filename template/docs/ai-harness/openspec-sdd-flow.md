@@ -15,7 +15,8 @@ PRD/product  ->  OpenSpec change/spec  ->  SDD/plano técnico  ->  implementaç�
 - Comandos OpenSpec do Claude em `.claude/commands/opsx/` (explore/propose/apply/archive/sync).
 - **PRD**: fonte de verdade de produto/negócio em `docs/prd/` (gerados pela skill
   `prd-produto` / `/prd-produto`; template em `docs/product/PRD.template.md`). O PRD
-  **alimenta** a OpenSpec change/spec — não inventar requisitos. SDDs em `docs/sdd/`.
+  **alimenta** a OpenSpec change — não inventar requisitos. O design/plano técnico (SDD)
+  fica no `design.md` da change.
 
 ## Como o OpenSpec lê o PRD
 
