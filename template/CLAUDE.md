@@ -90,6 +90,61 @@ Reference adaptation docs:
 - `docs/ai-harness/skills.md`
 - `.ai/references/agent-selection-matrix.md`
 
+## Fluxo PRD → Spec/SDD
+
+Este repositório usa PRDs como fonte de verdade para demandas de produto.
+
+PRDs devem ser criados e mantidos em:
+
+```text
+docs/prd/
+```
+
+Specs devem ser criadas em:
+
+```text
+docs/specs/
+```
+
+SDDs devem ser criadas em:
+
+```text
+docs/sdd/
+```
+
+### Regra obrigatória
+
+Antes de iniciar qualquer nova spec ou SDD, leia primeiro o PRD correspondente da demanda.
+
+Nenhuma spec ou SDD deve ser criada sem referência explícita ao PRD de origem.
+
+A spec ou SDD deve conter frontmatter com:
+
+```md
+---
+source_prd: docs/prd/<nome-da-iniciativa>.md
+source_prd_id: PRD-<nome-em-kebab-case>
+---
+```
+
+### PRDs registrados
+
+Manter esta lista atualizada sempre que um novo PRD for criado:
+
+<!-- PRD-INDEX:START -->
+<!-- PRD-INDEX:END -->
+
+### Skill relacionada
+
+Use a skill `prd-produto` para:
+
+* criar PRDs
+* revisar PRDs
+* recortar MVP
+* gerar perguntas de discovery
+* validar prontidão para SDD/spec
+* referenciar PRDs em `CLAUDE.md`, `AGENTS.md` e `docs/prd/README.md`
+
 ---
 
 <!-- rtk-instructions v2 -->

@@ -24,6 +24,9 @@ ai-harness-chassis/
     ├── config/               # checkstyle, spotless, archunit, pitest, pom-*.example.xml
     ├── docs/ai-harness/      # documentação do harness
     ├── docs/product/         # PRD.template.md
+    ├── docs/prd/             # PRDs (fonte de verdade) + README índice
+    ├── docs/specs/           # specs derivadas de PRDs (README com a regra)
+    ├── docs/sdd/             # SDDs derivadas de PRDs (README com a regra)
     ├── infra/localstack/     # Terraform do lab LocalStack
     ├── compose.yaml          # LocalStack via docker compose
     ├── .mcp.json             # MCPs do Claude Code
@@ -96,6 +99,24 @@ para sobrescrever (ex.: atualizar o harness depois de evoluir o chassi).
 `context7`, `springdocs`, `aws-docs`, `terraform-registry`, `aws-pricing-sandbox`,
 `localstack-lab` — para Claude Code (`.mcp.json`) e Codex (registrados pelo
 `install-tools.sh`). Detalhes e como habilitar/remover em `docs/ai-harness/mcp-setup.md`.
+
+## Fluxo PRD → Spec/SDD
+
+O chassi inclui a skill reutilizável `prd-produto` (Claude Code em
+`.claude/skills/prd-produto/` + comando `/prd-produto`; Codex em
+`.agents/skills/prd-produto/`) para transformar ideias, dores, oportunidades, épicos ou
+features em **PRDs de produto** focados em requisitos de negócio.
+
+O PRD é a **fonte de verdade** de negócio/produto. Regras do fluxo:
+
+- PRDs ficam em `docs/prd/`, specs em `docs/specs/`, SDDs em `docs/sdd/`.
+- Todo PRD salvo é referenciado em `docs/prd/README.md`, `CLAUDE.md` e `AGENTS.md`.
+- Nenhuma spec/SDD é criada sem ler antes o PRD de origem e referenciá-lo no frontmatter
+  (`source_prd`, `source_prd_id`). A spec/SDD é derivada do PRD, nunca o contrário.
+
+Uso no Claude Code: `/prd-produto auto <demanda>` (ou modos `discovery`/`lean`/`completo`/
+`review`/`mvp`/`perguntas`/`salvar`/`referenciar`/`pre-sdd`). No Codex: "Use a skill
+prd-produto em modo ... para <demanda>".
 
 ## Atualizar o chassi
 
