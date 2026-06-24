@@ -17,6 +17,15 @@ PRD/product  ->  OpenSpec change/spec  ->  SDD/plano técnico  ->  implementaç�
   `prd-produto` / `/prd-produto`; template em `docs/product/PRD.template.md`). O PRD
   **alimenta** a OpenSpec change/spec — não inventar requisitos. SDDs em `docs/sdd/`.
 
+## Como o OpenSpec lê o PRD
+
+A ligação é feita em `openspec/config.yaml` (`context` + `rules`), que o CLI injeta na IA
+ao rodar `openspec instructions <artefato> --change <nome>` (passo da skill `openspec-propose`
+/ `/opsx propose`). O `context` instrui a **ler o PRD em `docs/prd/` antes de gerar
+proposal/design/spec/tasks** e a não inventar requisitos; as `rules` por artefato exigem
+referência ao PRD de origem. Assim o fluxo PRD → OpenSpec é aplicado pelo próprio OpenSpec,
+não só pela convenção em `CLAUDE.md`/`AGENTS.md`.
+
 ## Antes de implementar
 
 ```bash
