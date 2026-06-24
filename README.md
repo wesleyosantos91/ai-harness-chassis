@@ -107,9 +107,18 @@ O chassi inclui a skill reutilizável `prd-produto` (Claude Code em
 `.agents/skills/prd-produto/`) para transformar ideias, dores, oportunidades, épicos ou
 features em **PRDs de produto** focados em requisitos de negócio.
 
-O PRD é a **fonte de verdade** de negócio/produto. Regras do fluxo:
+O PRD é a **fonte de verdade** de negócio/produto e **alimenta o OpenSpec** (mecanismo
+spec-driven do chassi). Cadeia canônica:
 
-- PRDs ficam em `docs/prd/`, specs em `docs/specs/`, SDDs em `docs/sdd/`.
+```text
+PRD (docs/prd/)  ->  OpenSpec change/spec (openspec/)  ->  SDD/plano (docs/sdd/)  ->  TDD
+```
+
+Regras do fluxo:
+
+- PRDs ficam em `docs/prd/`; a **spec derivada é uma OpenSpec change/spec** em `openspec/`
+  (via `openspec-propose` / `/opsx propose`); SDDs em `docs/sdd/`. `docs/specs/` é fallback
+  para specs sem OpenSpec ou notas de design.
 - Todo PRD salvo é referenciado em `docs/prd/README.md`, `CLAUDE.md` e `AGENTS.md`.
 - Nenhuma spec/SDD é criada sem ler antes o PRD de origem e referenciá-lo no frontmatter
   (`source_prd`, `source_prd_id`). A spec/SDD é derivada do PRD, nunca o contrário.

@@ -2,9 +2,22 @@
 
 Este diretório contém specs derivadas de PRDs.
 
+## OpenSpec é o mecanismo padrão
+
+Este projeto usa **OpenSpec** (`openspec/`, `schema: spec-driven`). A spec derivada de um
+PRD é, por padrão, uma **OpenSpec change/spec** em `openspec/` — crie-a via a skill
+`openspec-propose` ou `/opsx propose`, sempre referenciando o PRD de origem.
+
+```text
+PRD (docs/prd/)  ->  OpenSpec change/spec (openspec/)  ->  SDD/plano (docs/sdd/)  ->  TDD
+```
+
+`docs/specs/` é fallback para specs sem OpenSpec ou notas de design — e, mesmo assim,
+deve referenciar o PRD de origem.
+
 ## Regra obrigatória
 
-Antes de criar uma spec, leia o PRD correspondente em `docs/prd`.
+Antes de criar uma spec (OpenSpec ou arquivo aqui), leia o PRD correspondente em `docs/prd`.
 
 Toda spec deve conter referência explícita ao PRD de origem.
 

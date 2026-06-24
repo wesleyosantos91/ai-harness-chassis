@@ -92,25 +92,17 @@ Reference adaptation docs:
 
 ## Fluxo PRD → Spec/SDD
 
-Este repositório usa PRDs como fonte de verdade para demandas de produto.
-
-PRDs devem ser criados e mantidos em:
-
-```text
-docs/prd/
-```
-
-Specs devem ser criadas em:
+Este repositório usa PRDs como fonte de verdade de negócio e **OpenSpec** como mecanismo
+spec-driven. Cadeia canônica (ver também `## OpenSpec / SDD`):
 
 ```text
-docs/specs/
+PRD (docs/prd/)  ->  OpenSpec change/spec (openspec/)  ->  SDD/plano (docs/sdd/)  ->  TDD
 ```
 
-SDDs devem ser criadas em:
-
-```text
-docs/sdd/
-```
+- **PRDs** em `docs/prd/` (fonte de verdade de produto/negócio; skill `prd-produto`).
+- **Spec** derivada = OpenSpec change/spec em `openspec/` (via `openspec-propose` / `/opsx propose`).
+  `docs/specs/` é fallback para specs sem OpenSpec ou notas de design.
+- **SDDs** em `docs/sdd/` (ou no `design.md` da change).
 
 ### Regra obrigatória
 

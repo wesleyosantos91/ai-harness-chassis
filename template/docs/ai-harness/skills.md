@@ -27,8 +27,10 @@ permanecem e não foram alteradas.
 
 ## Fluxo PRD → Spec/SDD
 
-A skill `prd-produto` estabelece o PRD como fonte de verdade de negócio/produto. PRDs
-ficam em `docs/prd/`, specs em `docs/specs/` e SDDs em `docs/sdd/`. Todo PRD salvo é
+A skill `prd-produto` estabelece o PRD como fonte de verdade de negócio/produto e
+**alimenta o OpenSpec**. Cadeia: `PRD (docs/prd/) -> OpenSpec change/spec (openspec/) ->
+SDD/plano (docs/sdd/) -> TDD`. A spec derivada é uma OpenSpec change/spec (via
+`openspec-propose` / `/opsx propose`); `docs/specs/` é fallback. Todo PRD salvo é
 referenciado em `docs/prd/README.md`, `CLAUDE.md` e `AGENTS.md`; nenhuma spec/SDD pode
 ser criada sem ler antes o PRD de origem e referenciá-lo no frontmatter (`source_prd`,
 `source_prd_id`). No Claude Code há também o comando `/prd-produto`.

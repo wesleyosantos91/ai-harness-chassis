@@ -70,6 +70,28 @@ updated_at: <data atual ou [A confirmar]>
 ---
 ```
 
+### Integração com OpenSpec
+
+Quando o repositório usa OpenSpec (existe `openspec/` com `schema: spec-driven`), o fluxo
+canônico é:
+
+```text
+PRD (docs/prd/)  ->  OpenSpec change/spec (openspec/)  ->  SDD/plano técnico  ->  TDD
+```
+
+Neste caso:
+
+* O PRD continua sendo a fonte de verdade de negócio/produto e **alimenta** a spec do OpenSpec.
+* A "spec" derivada do PRD é uma **OpenSpec change/spec** em `openspec/`, criada via a skill
+  `openspec-propose` ou o comando `/opsx propose` (Claude Code).
+* A `proposal.md`/`design.md` da change e a SDD em `docs/sdd/` devem referenciar o PRD de
+  origem (`source_prd`, `source_prd_id`).
+* `docs/specs/` é fallback para specs sem OpenSpec ou notas de design; mesmo assim deve
+  referenciar o PRD.
+* Antes de implementar, valide com `scripts/ai/opsx-context-check.sh` e
+  `scripts/ai/openspec-validate.sh`. Requisito não claro **bloqueia** a implementação.
+* Não invente requisitos: o que não estiver no PRD/spec deve virar pergunta aberta.
+
 ## 2. Modos de uso
 
 A skill suporta os seguintes modos:
@@ -1118,10 +1140,13 @@ Tarefas:
 3. Identificar perguntas bloqueantes.
 4. Avaliar se o PRD está pronto para originar SDD/spec.
 5. Não criar SDD automaticamente, a menos que o usuário peça explicitamente.
-6. Se estiver pronto, recomendar o próximo arquivo:
-   * `docs/sdd/<nome-da-iniciativa>.md`
-   * ou `docs/specs/<nome-da-iniciativa>.md`
-7. A futura SDD/spec deve conter referência explícita ao PRD de origem.
+6. Se estiver pronto, recomendar o próximo passo:
+   * **Se houver OpenSpec** (`openspec/` presente): criar uma OpenSpec change/spec via a
+     skill `openspec-propose` ou `/opsx propose`, referenciando o PRD; a SDD/plano técnico
+     fica em `docs/sdd/<nome-da-iniciativa>.md` (ou no `design.md` da change).
+   * **Sem OpenSpec**: recomendar `docs/sdd/<nome-da-iniciativa>.md` ou
+     `docs/specs/<nome-da-iniciativa>.md`.
+7. A futura SDD/spec (OpenSpec change ou arquivo) deve conter referência explícita ao PRD de origem.
 
 Saída esperada:
 

@@ -2,9 +2,21 @@
 
 Este diretório contém System Design Documents derivados de PRDs.
 
+## Posição no fluxo (OpenSpec)
+
+Este projeto usa **OpenSpec**. A SDD é o **plano técnico** que vem depois da spec:
+
+```text
+PRD (docs/prd/)  ->  OpenSpec change/spec (openspec/)  ->  SDD/plano (docs/sdd/)  ->  TDD
+```
+
+A SDD pode morar aqui (`docs/sdd/<iniciativa>.md`) ou no `design.md` da OpenSpec change;
+em ambos os casos deriva do PRD e da spec, e referencia o PRD de origem. Valide com
+`scripts/ai/openspec-validate.sh` antes de implementar.
+
 ## Regra obrigatória
 
-Antes de criar uma SDD, leia o PRD correspondente em `docs/prd`.
+Antes de criar uma SDD, leia o PRD correspondente em `docs/prd` (e a OpenSpec change/spec, se houver).
 
 Nenhuma SDD deve ser criada sem PRD de origem.
 
